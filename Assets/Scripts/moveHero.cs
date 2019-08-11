@@ -7,8 +7,11 @@ public class moveHero : MonoBehaviour
 
     public bool faceRight = true;
     public Transform heroT;
+    public Rigidbody2D heroRB;
     public float speed = 4.5f;
+    public float force = 10f;
     public Animator animator;
+    public bool jumpReady = false; 
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +30,7 @@ public class moveHero : MonoBehaviour
         }
 
         moveHeroCheck();
+        jumpHeroCheck();
     }
 
     void flipHero(){
@@ -59,5 +63,35 @@ public class moveHero : MonoBehaviour
     void stopWalkingAnimation(){
         animator.SetBool("walking", false);
         animator.SetBool("idle", true);
+    }
+
+    void startJumpAnimation(){
+        animator.SetBool("jumping", true);
+        animator.SetBool("walking", false);
+        animator.SetBool("idle", false);
+    }
+
+    void stopJumpAnimation(){
+        animator.SetBool("jumping", false);
+    }
+
+    void jumpHeroCheck(){
+        if(Input.GetKeyDown(KeyCode.Space) && jumpReady == true){
+            startJumpAnimation();
+            heroRB.AddForce(new Vector2(0, force), ForceMode2D.Impulse);
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D floor){
+        if(floor.gameObject.CompareTag("chao")){
+            jumpReady = true;
+            stopJumpAnimation();
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D floor){
+        if(floor.gameObject.CompareTag("chao")){
+            jumpReady = false;
+        }
     }
 }
