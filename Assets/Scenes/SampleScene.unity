@@ -1211,7 +1211,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 18
-  m_Sprite: {fileID: 21300000, guid: 58ae80fcbafaf43409f6c37383ba9a8c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b37b8f432f243d947b9c54d77b40d08c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1271,7 +1271,7 @@ MonoBehaviour:
   heroT: {fileID: 99741957}
   heroRB: {fileID: 99741955}
   speed: 4.5
-  force: 10
+  force: 6.5
   animator: {fileID: 99741958}
   jumpReady: 0
 --- !u!1 &431558851
@@ -1886,7 +1886,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 1.5618105, y: -3.2}
+  m_Offset: {x: 1.5577126, y: -3.2}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1897,7 +1897,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 47.36487, y: 0.5476575}
+  m_Size: {x: 46.957695, y: 0.5476575}
   m_EdgeRadius: 0
 --- !u!1 &1658680322
 GameObject:

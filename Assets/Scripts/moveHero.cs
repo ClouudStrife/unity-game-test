@@ -8,10 +8,10 @@ public class moveHero : MonoBehaviour
     public bool faceRight = true;
     public Transform heroT;
     public Rigidbody2D heroRB;
-    public float speed = 4.5f;
-    public float force = 10f;
+    public float speed = 3.15f;
+    public float force = 6.5f;
     public Animator animator;
-    public bool jumpReady = false; 
+    public bool isGrounded = false;
 
     // Start is called before the first frame update
     void Start()
@@ -22,15 +22,42 @@ public class moveHero : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKey(KeyCode.RightArrow) && !faceRight){
-            flipHero();
+        if(Input.GetKey(KeyCode.RightArrow)){
+            if(!faceRight)
+                flipHero();
         }
-        else if(Input.GetKey(KeyCode.LeftArrow) && faceRight){
-            flipHero();
+        else if(Input.GetKey(KeyCode.LeftArrow)){
+            if(faceRight)
+                flipHero();
         }
 
-        moveHeroCheck();
-        jumpHeroCheck();
+        float moveHero = Input.GetAxisRaw("Horizontal");
+        heroRB.velocity = new Vector2(moveHero * speed, heroRB.velocity.y);
+
+        if(moveHero == 0){
+            animator.SetBool("isWalking", false);
+        }
+        else{
+            animator.SetBool("isWalking", true);
+        }
+
+        if(isGrounded == true && Input.GetKeyDown(KeyCode.Space)){
+            heroRB.velocity = Vector2.up * force;
+            animator.SetTrigger("takeOff");
+        }
+
+        if(isGrounded == true){
+            animator.SetBool("isJumping", false);
+        }
+        else{
+            animator.SetBool("isJumping", true);
+        }
+
+        if(Input.GetKeyDown(KeyCode.Z)){
+            heroAtack();
+        }
+
+    
     }
 
     void flipHero(){
@@ -41,57 +68,25 @@ public class moveHero : MonoBehaviour
         heroT.localScale = scale;
     }
 
-    void moveHeroCheck(){
-        if(Input.GetKey(KeyCode.RightArrow)){
-            transform.Translate(new Vector2(speed * Time.deltaTime, 0));
-            startWalkingAnimation();
-        }
-        else if(Input.GetKey(KeyCode.LeftArrow)){
-            transform.Translate(new Vector2(-speed * Time.deltaTime, 0));
-            startWalkingAnimation();
-        } 
-        else {
-            stopWalkingAnimation();
-        }
-    }
-
-    void startWalkingAnimation(){
-        animator.SetBool("walking", true);
-        animator.SetBool("idle", false);
-    }
-
-    void stopWalkingAnimation(){
-        animator.SetBool("walking", false);
-        animator.SetBool("idle", true);
-    }
-
-    void startJumpAnimation(){
-        animator.SetBool("jumping", true);
-        animator.SetBool("walking", false);
-        animator.SetBool("idle", false);
-    }
-
-    void stopJumpAnimation(){
-        animator.SetBool("jumping", false);
-    }
-
     void jumpHeroCheck(){
-        if(Input.GetKeyDown(KeyCode.Space) && jumpReady == true){
-            startJumpAnimation();
+        if(Input.GetKeyDown(KeyCode.Space) && isGrounded == true){
             heroRB.AddForce(new Vector2(0, force), ForceMode2D.Impulse);
         }
     }
 
     void OnCollisionEnter2D(Collision2D floor){
         if(floor.gameObject.CompareTag("chao")){
-            jumpReady = true;
-            stopJumpAnimation();
+            isGrounded = true;
         }
     }
 
     void OnCollisionExit2D(Collision2D floor){
         if(floor.gameObject.CompareTag("chao")){
-            jumpReady = false;
+            isGrounded = false;
         }
+    }
+
+    void heroAtack(){
+        animator.SetTrigger("atacking");
     }
 }
