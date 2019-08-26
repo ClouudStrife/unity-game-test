@@ -52,11 +52,6 @@ public class moveHero : MonoBehaviour
         else{
             animator.SetBool("isJumping", true);
         }
-
-        if(Input.GetKeyDown(KeyCode.Z)){
-            heroAtack();
-        }
-
     
     }
 
@@ -68,11 +63,6 @@ public class moveHero : MonoBehaviour
         heroT.localScale = scale;
     }
 
-    void jumpHeroCheck(){
-        if(Input.GetKeyDown(KeyCode.Space) && isGrounded == true){
-            heroRB.AddForce(new Vector2(0, force), ForceMode2D.Impulse);
-        }
-    }
 
     void OnCollisionEnter2D(Collision2D floor){
         if(floor.gameObject.CompareTag("chao")){
@@ -84,9 +74,5 @@ public class moveHero : MonoBehaviour
         if(floor.gameObject.CompareTag("chao")){
             isGrounded = false;
         }
-    }
-
-    void heroAtack(){
-        animator.SetTrigger("atacking");
     }
 }
